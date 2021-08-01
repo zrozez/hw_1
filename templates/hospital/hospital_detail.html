@@ -1,0 +1,64 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <title>
+        Сотрудник лаборатории
+    </title>
+
+</head>
+<body>
+    <nav class="navbar navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand">Hospital</a>
+            <form action="{% url 'hospital_list_url' %}" method="hospital">
+                {%csrf_token%}
+                {%for field in search_form%}
+                    {{field}}
+                {%endfor%}
+                <button class="btn btn-outline-success" type="submit">Search</button>
+          </form>
+        </div>
+      </nav>
+
+
+    <div class="card text-white bg-secondary mb-3" style="max-width: 18rem;">
+        <div class="card-header">Person</div>
+        <div class="card-body">
+            <h5 class="card-title">{{hosp.title}}</h5>
+            <p class="card-text">{{hosp.body}}</p>
+        </div>
+    </div>
+    
+    {% with asks.count as total_asks %}
+    <h2>{{ total_asks }} ask{{ total_asks | pluralize }}</h2>
+        {% endwith %}
+    {% for ask in asks %}
+    <div class="ask">
+        <p class="info">
+            Ask {{ forloop.counter }} by {{ ask.name }}
+            {{ ask.created }}
+        </p>
+        {{ ask.body|linebreaks }}  
+    </div>
+    {% empty %}
+        <p> There are no asks yet.</p>
+    {% endfor %}
+
+{% if new_ask %}
+    <h2>Your ask has been added.</h2>
+{% else %}
+    <h2>Add a new ask</h2>
+    <form action="." method="hospital">
+        {{ ask_form.as_p }}
+        {% csrf_token %}
+        <p><input type="submit" value="Add ask"></p>
+    </form>
+{% endif %}
+</body>
+</html>
