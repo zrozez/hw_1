@@ -30,24 +30,25 @@
     <div class="card text-white bg-secondary mb-3" style="max-width: 18rem;">
         <div class="card-header">Person</div>
         <div class="card-body">
-            <h5 class="card-title">{{hosp.title}}</h5>
-            <p class="card-text">{{hosp.body}}</p>
+            <h5 class="card-title">{{hospital.title}}</h5>
+            <p class="card-text">{{hospital.body}}</p>
         </div>
     </div>
     
-    {% with asks.count as total_asks %}
-    <h2>{{ total_asks }} ask{{ total_asks | pluralize }}</h2>
-        {% endwith %}
-    {% for ask in asks %}
+{% with asks.count as total_asks %}
+    <h2>{{ total_asks }} ask{{ total_asks|pluralize }}</h2>
+{% endwith %}
+{% for ask in asks %}
     <div class="ask">
         <p class="info">
             Ask {{ forloop.counter }} by {{ ask.name }}
             {{ ask.created }}
         </p>
-        {{ ask.body|linebreaks }}  
+        {{ asks.body|linebreaks }}
+     
     </div>
     {% empty %}
-        <p> There are no asks yet.</p>
+            <p> There are no asks yet.</p>
     {% endfor %}
 
 {% if new_ask %}
