@@ -17,18 +17,18 @@ def hospital_list_view(request):
 def hospital_detail_view(request, id):
     hospital = get_object_or_404(Hospital, id=id)
     asks = hospital.asks.filter(active=True)
-    if request.method == 'HOSPITAL':
-        ask_form = AskForm(request.HOSPITAL)
+    if request.method == 'POST':
+        ask_form = AskForm(request.POST)
         if ask_form.is_valid():
             new_ask = ask_form.save(commit=False)
             new_ask.hospital = hospital
             new_ask.save()
-        return render(request, 
-            'hospital/hospital_detail.html', 
-            {'hospital':hospital,
-            'asks': asks,
-            'ask_form': ask_form,
-            'new_ask': new_ask})
+            return render(request, 
+                'hospital/hospital_detail.html', 
+                {'hospital':hospital,
+                'asks': asks,
+                'ask_form': ask_form,
+                'new_ask': new_ask})
     else:
         ask_form = AskForm()
         return render(request, 

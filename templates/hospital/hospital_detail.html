@@ -44,7 +44,7 @@
             Ask {{ forloop.counter }} by {{ ask.name }}
             {{ ask.created }}
         </p>
-        {{ asks.body|linebreaks }}
+        {{ ask.body|linebreaks }}
      
     </div>
     {% empty %}
@@ -55,7 +55,7 @@
     <h2>Your ask has been added.</h2>
 {% else %}
     <h2>Add a new ask</h2>
-    <form action="." method="hospital">
+    <form action="." method="post">
         {{ ask_form.as_p }}
         {% csrf_token %}
         <p><input type="submit" value="Add ask"></p>
